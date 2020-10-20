@@ -1,6 +1,7 @@
 from random import randint
 
 from .view import index_view, contacts_view
+from .source.Application import Application
 
 urlpatterns = {
     '/': index_view,
@@ -20,3 +21,5 @@ front_controllers = [
     secret_key,
     random_num,
 ]
+
+application = Application(urlpatterns, front_controllers)

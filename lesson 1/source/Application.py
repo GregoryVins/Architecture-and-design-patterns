@@ -4,7 +4,7 @@ class Application:
     """
     def __init__(self, routes: dict, f_controllers: list):
         """
-        Создаём атрибуты класса, где:
+        Создаём атрибуты класса, где
         :param routes: словарь, dict - urlpatterns.
         :param f_controllers: список, массив, list - front controllers.
         """
