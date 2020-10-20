@@ -2,6 +2,7 @@ class Application:
     """
     Создаем класс, чтобы пробросить в него данные без нарушения PEP3333.
     """
+
     def __init__(self, routes: dict, f_controllers: list):
         """
         Создаём атрибуты класса, где
@@ -22,7 +23,10 @@ class Application:
 
             code, body = view(request)
             start_response(code, [('Context-Type', 'text/html')])
-            return body
-        start_response = ('404 NOT FOUND', [('Context-Type', 'text/html')])
-        return [b'<h1>404 NOT FOUND<h1>']
+            return [body.encode('UTF-8')]
 
+        view = self.routes['/error/']
+        request = {}
+        code, body = view(request)
+        start_response(code, [('Context-Type', 'text/html')])
+        return [body.encode['UTF-8']]
