@@ -24,6 +24,7 @@ class Application:
             code, body = view(request)
             start_response(code, [('Context-Type', 'text/html')])
             return [body.encode('UTF-8')]
+
         else:
             view = self.routes['/error/']
             request = {}
