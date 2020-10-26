@@ -10,7 +10,6 @@ def index_view(request):
 
 def contacts_view(request):
     if request['method'] == 'POST':
-        print('\n\n', request)
         data = request['data']
         topic = data['topic']
         email = data['email']
@@ -31,6 +30,6 @@ def save_temporary_data(email, topic, message):
     :param topic: User's title or theme of message.
     :param message: User's text message.
     """
-    with open('temp/temporary.txt', 'a')as file:
-        file.write(f'{datetime.now()} / from user: {email}.\n'
+    with open('temporary.txt', 'a')as file:
+        file.write(f'{datetime.now().replace(microsecond=0)} / from user: {email}.\n'
                    f'Topic: {topic} / Text: {message}\n\n')
