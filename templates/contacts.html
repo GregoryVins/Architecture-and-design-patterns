@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Contacts</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %} Contacts {% endblock %}
+
+{% block container %}
 <h1>Contacts:</h1><br><br>
 <p><b>Address:</b> <i>Moscow, University street, 30/1, office 214</i></p>
 <p><b>Phone:</b> <i>8 (800) 9999-99-99</i></p>
@@ -19,5 +15,4 @@
     <input type="text" name="message" placeholder="Текст сообщения" class="form-control">
     <button type="submit" class="btn btn-success">Отправить</button>
 </form>
-</body>
-</html>
+{% endblock %}

@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>404 NOT FOUND</title>
-    <style>
-        body {
-            margin: 0 auto;
-            padding: 40vh;
-            text-align: center;
-            font-size: 34px;
-            background-color: #262626;
-            color: rgba(255, 255, 255, 0.3);
-        }
+{% extends "base.html" %}
 
-        body a {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.3);
-            font-size: 22px;
+{% block title %} NOT FOUND {% endblock %}
 
-        }
+{% block header %}{% endblock %}
 
-        body a:hover {
-            color: rgba(255, 255, 255, 0.5);
-            transition: .25s;
-        }
-    </style>
-</head>
-<body>
+{% block container %}
+<style>
+    body {
+        margin: 0 auto;
+        padding: 40vh;
+        text-align: center;
+        font-size: 34px;
+        background-color: #262626;
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    body a {
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.3);
+        font-size: 22px;
+
+    }
+
+    body a:hover {
+        color: rgba(255, 255, 255, 0.5);
+        transition: .25s;
+    }
+</style>
+
 404 NOT FOUND<br><br><br><br><br><br>
 <a href="/">Вернуться на главную</a>
-</body>
-</html>
+{% endblock %}

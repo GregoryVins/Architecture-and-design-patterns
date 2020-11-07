@@ -1,14 +1,15 @@
-import os
-from jinja2 import Template
+from jinja2 import FileSystemLoader
+from jinja2.environment import Environment
 
 
-def render(template_name, **kwargs):
+def render(template_name, folder='templates', **kwargs):
     """
-    Минимальная функциональность шаблонизатора.
-    :param template_name: Имя шаблона.
-    :param kwargs: Параметры для передачи.
+    Отвечает за рендер страницы
+    :param template_name: Название шаблона
+    :param folder: Название папки, где расположены шаблоны
+    :return: Рендерит шаблон с передаваемыми аргументами
     """
-    path = os.path.join('templates/', template_name)
-    with open(path, encoding='UTF-8')as file:
-        template = Template(file.read())
+    environment = Environment()
+    environment.loader = FileSystemLoader(folder)
+    template = environment.get_template(template_name)
     return template.render(**kwargs)
