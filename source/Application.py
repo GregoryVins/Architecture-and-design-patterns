@@ -79,3 +79,25 @@ class Application:
             code, body = view(request)
             start_response(code, [('Context-Type', 'text/html')])
             return [body.encode('UTF-8')]
+
+
+class DebugApplication(Application):
+    def __init__(self, routes, f_controllers):
+        self.application = Application(routes, f_controllers)
+        super().__init__(routes, f_controllers)
+
+    def __call__(self, env, start_response):
+        print('\n=========\nD E B U G    M O D E\n=========\n')
+        print(env)
+        return self.application(env, start_response)
+
+
+class MockApplication(Application):
+
+    def __init__(self, routes, f_controllers):
+        self.application = Application(routes, f_controllers)
+        super().__init__(routes, f_controllers)
+
+    def __call__(self, env, start_response):
+        start_response('200 OK', [('Content-Type', 'text/html')])
+        return [b'Welcome to Mock']

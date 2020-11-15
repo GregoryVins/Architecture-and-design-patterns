@@ -2,6 +2,8 @@ from hashlib import sha256
 from random import randint
 
 from source.Application import Application
+from source.templates import render
+
 from view import index_view, contacts_view, not_found_404
 
 urlpatterns = {
