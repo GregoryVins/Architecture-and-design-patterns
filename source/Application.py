@@ -74,11 +74,8 @@ class Application:
             return [body.encode('UTF-8')]
 
         else:
-            view = self.routes['/error/']
-            request = {}
-            code, body = view(request)
-            start_response(code, [('Context-Type', 'text/html')])
-            return [body.encode('UTF-8')]
+            start_response('404 NOT FOUND', [('Context-Type', 'text/html')])
+            return ['NOT FOUND']
 
 
 class DebugApplication(Application):

@@ -1,6 +1,6 @@
 from logging_mode import Logger, debug
 from models import TrainingSite
-from source.Application import MockApplication
+from source.Application import MockApplication, Application, DebugApplication
 from source.templates import render
 
 SITE = TrainingSite()
@@ -62,7 +62,7 @@ front_controllers = [
     secret_controller,
 ]
 
-application = MockApplication(urlpatterns, front_controllers)
+application = Application(urlpatterns, front_controllers)
 
 
 @application.add_route('/copy-course/')

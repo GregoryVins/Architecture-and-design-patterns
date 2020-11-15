@@ -3,13 +3,13 @@
 {% block title %} Список категорий {% endblock %}
 
 {% block container %}
-    <h2>Список курсов:</h2>
-    {% for item in objects_list %}
-    <p>
-        {{ item.name }}<br>
-        <span class="text-muted">
+<h2 class="display-4">Список категорий:</h2>
+{% for item in objects_list %}
+<p>
+    {{ item.name }}<br>
+    <span class="text-muted">
             Количество курсов: {{ item.course_count() }}
         </span>
-    </p>
+</p>
 {% endfor %}
 {% endblock %}
