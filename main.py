@@ -1,25 +1,85 @@
-from hashlib import sha256
-from random import randint
-
-from source.Application import Application
+from logging_mode import Logger, debug
+from models import TrainingSite
+from source.Application import MockApplication
 from source.templates import render
 
-from view import index_view, contacts_view, not_found_404
+SITE = TrainingSite()
+LOGGER = Logger('main')
+
+
+def main_view(request):
+    LOGGER.log('Список курсов')
+    return '200 OK', render('course_list.html', objects_list=SITE.courses)
+
+
+@debug
+def create_course(request):
+    if request['method'] == 'POST':
+        data = request['data']
+        name = data['name']
+        category_id = data.get('category_id')
+        print(f'{category_id=}')
+        category = None
+        if category_id:
+            category = SITE.find_category_by_id(int(category_id))
+            course = SITE.create_course('record', name, category)
+            SITE.courses.append(course)
+        return '200 OK', render('create_course.html')
+    else:
+        categories = SITE.categories
+        return '200 OK', render('create_course.html', categories=categories)
+
+
+def create_category(request):
+    if request['method'] == 'POST':
+        data = request['data']
+        name = data['name']
+        category_id = data.get('category_id')
+
+        category = None
+        if category_id:
+            category = SITE.find_category_by_id(int(category_id))
+        new_category = SITE.create_category(name, category)
+        SITE.categories.append(new_category)
+        return '200 OK', render('create_category.html')
+    else:
+        categories = SITE.categories
+        return '200 OK', render('create_category.html', categories=categories)
+
 
 urlpatterns = {
-    '/': index_view,
-    '/contacts/': contacts_view,
-    '/error/': not_found_404,
+    '/': main_view,
+    '/create-course/': create_course,
+    '/create-category/': create_category,
 }
 
 
-def secret_key(request):
-    request['key'] = sha256(bytes(randint(0, 100))).hexdigest()
+def secret_controller(request):
+    request['secret'] = 'secret'
 
 
 front_controllers = [
-    secret_key,
+    secret_controller,
 ]
 
-application = Application(urlpatterns, front_controllers)
+application = MockApplication(urlpatterns, front_controllers)
 
+
+@application.add_route('/copy-course/')
+def copy_course(request):
+    request_params = request['request_params']
+    print(request_params)
+    name = request_params['name']
+    old_course = SITE.get_course(name=name)
+    if old_course:
+        new_name = f'copy_{name}'
+        new_course = old_course.clone()
+        new_course.name = new_name
+        SITE.courses.append(new_course)
+    return '200 OK', render('course_list.html', objects_list=SITE.courses)
+
+
+@application.add_route('/category-list/')
+def category_list(request):
+    LOGGER.log('Список категорий')
+    return '200 OK', render('category_list.html', objects_list=SITE.categories)
