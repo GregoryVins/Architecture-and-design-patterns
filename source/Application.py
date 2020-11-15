@@ -3,6 +3,16 @@ class Application:
     Создаем класс, чтобы пробросить в него данные без нарушения PEP3333.
     """
 
+    def add_route(self, url):
+        """
+        Паттерн декоратор для добавления нового URL в routes текущего класса.
+        """
+
+        def inner(view):
+            self.routes[url] = view
+
+        return inner
+
     def parse_input_data(self, data: str) -> dict:
         result = {}
         if data:
@@ -50,11 +60,11 @@ class Application:
         if path in self.routes:
             view = self.routes[path]
 
-            request = {}
-
-            request['method'] = method
-            request['data'] = data
-            request['request_params'] = request_params
+            request = {
+                'method': method,
+                'data': data,
+                'request_params': request_params
+            }
 
             for front_controller in self.f_controllers:
                 front_controller(request)

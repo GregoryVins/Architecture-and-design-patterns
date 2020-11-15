@@ -1,8 +1,8 @@
-from random import randint
 from hashlib import sha256
+from random import randint
 
-from view import index_view, contacts_view, not_found_404
 from source.Application import Application
+from view import index_view, contacts_view, not_found_404
 
 urlpatterns = {
     '/': index_view,
