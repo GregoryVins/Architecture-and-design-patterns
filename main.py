@@ -22,3 +22,4 @@ front_controllers = [
 ]
 
 application = Application(urlpatterns, front_controllers)
+
