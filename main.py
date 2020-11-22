@@ -68,7 +68,6 @@ application = Application(urlpatterns, front_controllers)
 @application.add_route('/copy-course/')
 def copy_course(request):
     request_params = request['request_params']
-    print(request_params)
     name = request_params['name']
     old_course = SITE.get_course(name=name)
     if old_course:
