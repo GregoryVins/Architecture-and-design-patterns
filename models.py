@@ -1,16 +1,28 @@
+from reuserpatterns.observer import Subject, Observer
 from reuserpatterns.prototype import PrototypeMixin
+import pickle
 
 
 class User:
     """Базовая модель пользователя."""
 
+    def __init__(self, name):
+        self.name = name
+
 
 class Teacher(User):
     """Модель преподавателя."""
+    def __init__(self, name):
+        super().__init__(name)
+        self.subject = []
 
 
 class Student(User):
     """Модель студента."""
+
+    def __init__(self, name):
+        super().__init__(name)
+        self.courses = []
 
 
 class SimpleFactory:
@@ -27,13 +39,16 @@ class UserFactory:
     }
 
     @classmethod
-    def create(cls, type_):
-        return cls.types[type_]()
+    def create(cls, type_, name):
+        return cls.types[type_](name)
 
 
 class Category:
     """Модель категории с автоинкрементом поля ID."""
     id = 0
+
+    def __getitem__(self, item):
+        return self.courses[item]
 
     def __init__(self, name, category):
         self.id = Category.id
@@ -50,13 +65,34 @@ class Category:
         return result
 
 
-class Course(PrototypeMixin):
+class Course(PrototypeMixin, Subject):
     """Модель курса."""
 
     def __init__(self, name, category):
         self.name = name
         self.category = category
         self.category.courses.append(self)
+        self.students = []
+        super().__init__()
+
+    def __getitem__(self, item):
+        return self.students[item]
+
+    def add_new_student(self, student: Student):
+        self.students.append(student)
+        student.courses.append(self)
+
+
+class BaseSerializer:
+
+    def __init__(self, objct):
+        self.objct = objct
+
+    def save(self):
+        return pickle.dumps(self.objct)
+
+    def load(self, objct):
+        return pickle.loads(objct)
 
 
 class InteractiveCourse(Course):
@@ -87,9 +123,9 @@ class TrainingSite:
         self.courses = []
         self.categories = []
 
-    def create_user(self, type_):
+    def create_user(self, type_, name):
         """СОздание пользователя в зависимости от типа."""
-        return UserFactory.create(type_)
+        return UserFactory.create(type_, name)
 
     def create_category(self, name, category=None):
         """Создание категории."""
@@ -101,7 +137,7 @@ class TrainingSite:
         Возвращает ошибку в случае отсутствия.
         """
         for item in self.categories:
-            print('item', item.id)
+            print(f'{item.id=}')
             if item.id == id:
                 return item
         raise Exception(f'Категории с {id} не существует')
@@ -119,3 +155,8 @@ class TrainingSite:
             if item.name == name:
                 return item
         return None
+
+    def get_student(self, name):
+        for item in self.students:
+            if item.name == name:
+                return item
