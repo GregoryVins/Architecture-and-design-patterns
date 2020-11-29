@@ -6,10 +6,11 @@
 <h2 class="display-4">Список категорий:</h2>
 {% for item in objects_list %}
 <p>
-    {{ item.name }}<br>
+    {{ item.name }}
+    <br>
     <span class="text-muted">
-            Количество курсов: {{ item.course_count() }}
-        </span>
+        Количество курсов: {{ item.course_count() }}
+    </span>
 </p>
 {% endfor %}
 {% endblock %}
