@@ -2,6 +2,7 @@ import pickle
 
 from reuserpatterns.observer import Subject
 from reuserpatterns.prototype import PrototypeMixin
+from sourceorm.unitofwork import DomainObject
 
 
 class User:
@@ -13,12 +14,13 @@ class User:
 
 class Teacher(User):
     """Модель преподавателя."""
+
     def __init__(self, name):
         super().__init__(name)
         self.subject = []
 
 
-class Student(User):
+class Student(User, DomainObject):
     """Модель студента."""
 
     def __init__(self, name):
@@ -26,11 +28,11 @@ class Student(User):
         self.courses = []
 
 
-class SimpleFactory:
-    """Абстрактный паттерн фабричного метода."""
-
-    def __init__(self, types=None):
-        self.types = types or {}
+# class SimpleFactory:
+#     """Абстрактный паттерн фабричного метода."""
+#
+#     def __init__(self, types=None):
+#         self.types = types or {}
 
 
 class UserFactory:
@@ -155,7 +157,6 @@ class TrainingSite:
         for item in self.courses:
             if item.name == name:
                 return item
-        return None
 
     def get_student(self, name):
         for item in self.students:
