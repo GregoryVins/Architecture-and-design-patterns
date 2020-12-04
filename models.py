@@ -1,6 +1,7 @@
-from reuserpatterns.observer import Subject, Observer
-from reuserpatterns.prototype import PrototypeMixin
 import pickle
+
+from reuserpatterns.observer import Subject
+from reuserpatterns.prototype import PrototypeMixin
 
 
 class User:
